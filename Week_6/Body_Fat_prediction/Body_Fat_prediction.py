@@ -12,7 +12,7 @@ st.set_page_config(page_title="Body Fat Predictor", layout="centered")
 st.title('🏋 Body Fat Predictor')
 st.subheader("Predict your body fat percentage based on measurements")
 
-
+# -------------------- MODEL LOADING --------------------
 @st.cache_resource
 def load_or_train_model():
     model_path = "body_fat_model.pkl"
@@ -50,18 +50,18 @@ st.markdown("### Enter Your Measurements:")
 
 cols = st.columns(2)
 with cols[0]:
-    weight = st.number_input("Weight (kg)", 40.0, 200.0, 70.0, step=0.1)
-    neck = st.number_input("Neck (cm)", 25.0, 60.0, 36.0, step=0.1)
-    chest = st.number_input("Chest (cm)", 70.0, 150.0, 95.0, step=0.1)
-    abdomen = st.number_input("Abdomen (cm)", 60.0, 150.0, 85.0, step=0.1)
-    hip = st.number_input("Hip (cm)", 70.0, 150.0, 95.0, step=0.1)
+    weight = st.number_input("Weight (kg)",min_value=10,value=70.0, step=0.1,)
+    neck = st.number_input("Neck Circumference (cm)",min_value=10, value= 36.0, step=0.1)
+    chest = st.number_input("Chest Circumference (cm)",min_value=10,value= 95.0, step=0.1)
+    abdomen = st.number_input("Abdomen Circumference (cm)",min_value=10, value= 85.0, step=0.1)
+    hip = st.number_input("Hip Circumference (cm)",min_value=10, value= 95.0, step=0.1)
 
 with cols[1]:
-    thigh = st.number_input("Thigh (cm)", 40.0, 90.0, 60.0, step=0.1)
-    knee = st.number_input("Knee (cm)", 30.0, 60.0, 37.0, step=0.1)
-    biceps = st.number_input("Biceps (cm)", 20.0, 50.0, 32.0, step=0.1)
-    forearm = st.number_input("Forearm (cm)", 20.0, 40.0, 27.0, step=0.1)
-    wrist = st.number_input("Wrist (cm)", 13.0, 25.0, 17.0, step=0.1)
+    thigh = st.number_input("Thigh Circumference (cm)",min_value=10, value= 60.0, step=0.1)
+    knee = st.number_input("Knee Circumference (cm)",min_value=10,value= 37.0, step=0.1)
+    biceps = st.number_input("Biceps Circumference (cm)",min_value=10, value= 32.0, step=0.1)
+    forearm = st.number_input("Forearm Circumference (cm)",min_value=10, value= 27.0, step=0.1)
+    wrist = st.number_input("Wrist Circumference (cm)",min_value=10,value= 17.0, step=0.1)
 
 # -------------------- PREDICTION --------------------
 if st.button("Predict Body Fat"):
