@@ -72,6 +72,9 @@ if st.button("Predict Body Fat"):
     st.plotly_chart(fig)
 
 
+st.write('For Feedback Feel free to contact at mail.habiburrehman@gmail.com')
+
+
 
 
 
