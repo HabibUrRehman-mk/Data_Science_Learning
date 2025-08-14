@@ -28,6 +28,8 @@ def load_or_train_model():
     df['Weight'] = (df['Weight'] * 0.453592).round(2)
 
     X = df.drop(['BodyFat'], axis=1)
+    cols=['Neck','Chest','Abdomen','Hip','Thigh','Knee','Biceps','Forearm','Wrist']
+    X[cols]=X[cols]* 0.3937
     y = df['BodyFat']
 
     x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -50,18 +52,18 @@ st.markdown("### Enter Your Measurements:")
 
 cols = st.columns(2)
 with cols[0]:
-    weight = st.number_input("Weight (kg)",min_value=10,value=70.0, step=0.1,)
-    neck = st.number_input("Neck Circumference (cm)",min_value=10, value= 36.0, step=0.1)
-    chest = st.number_input("Chest Circumference (cm)",min_value=10,value= 95.0, step=0.1)
-    abdomen = st.number_input("Abdomen Circumference (cm)",min_value=10, value= 85.0, step=0.1)
-    hip = st.number_input("Hip Circumference (cm)",min_value=10, value= 95.0, step=0.1)
+    weight = st.number_input("Weight (kg)",min_value=10.0,value=69.0, step=0.1,)
+    neck = st.number_input("Neck Circumference (Inches)",min_value=7.0, value= 14.0, step=0.1)
+    chest = st.number_input("Chest Circumference (Inches)",min_value=10.0,value= 38.0, step=0.1)
+    abdomen = st.number_input("Abdomen Circumference (Inches)",min_value=10.0, value=33.0, step=0.1)
+    hip = st.number_input("Hip Circumference (Inches)",min_value=10.0, value= 37.0, step=0.1)
 
 with cols[1]:
-    thigh = st.number_input("Thigh Circumference (cm)",min_value=10, value= 60.0, step=0.1)
-    knee = st.number_input("Knee Circumference (cm)",min_value=10,value= 37.0, step=0.1)
-    biceps = st.number_input("Biceps Circumference (cm)",min_value=10, value= 32.0, step=0.1)
-    forearm = st.number_input("Forearm Circumference (cm)",min_value=10, value= 27.0, step=0.1)
-    wrist = st.number_input("Wrist Circumference (cm)",min_value=10,value= 17.0, step=0.1)
+    thigh = st.number_input("Thigh Circumference (Inches)",min_value=10.0, value= 24.0, step=0.1)
+    knee = st.number_input("Knee Circumference (Inches)",min_value=8.0,value= 15.0, step=0.1)
+    biceps = st.number_input("Biceps Circumference (Inches)",min_value=5.0, value= 13.0, step=0.1)
+    forearm = st.number_input("Forearm Circumference (Inches)",min_value=5.0, value= 10.0, step=0.1)
+    wrist = st.number_input("Wrist Circumference (Inches)",min_value=3.0,value= 7.0, step=0.1)
 
 # -------------------- PREDICTION --------------------
 if st.button("Predict Body Fat"):
@@ -75,17 +77,25 @@ if st.button("Predict Body Fat"):
         lower_bound = prediction - mae
         upper_bound = prediction + mae
 
-        st.success(f"Predicted Body Fat: **{prediction:.2f}%**")
-        st.write(f"Estimated Range: **{lower_bound:.2f}%** - **{upper_bound:.2f}%**")
+        # st.success(f"Predicted Body Fat: **{prediction:.2f}%**")
+        # st.success(f"Estimated Range: **{lower_bound:.2f}%** - **{upper_bound:.2f}%**")
 
         
         if prediction < 14:
+            st.success(f"Predicted Body Fat: **{prediction:.2f}%**")
+            st.success(f"Estimated Range: **{lower_bound:.2f}%** - **{upper_bound:.2f}%**")
             category = "Athlete"
         elif prediction < 20:
+            st.success(f"Predicted Body Fat: **{prediction:.2f}%**")
+            st.success(f"Estimated Range: **{lower_bound:.2f}%** - **{upper_bound:.2f}%**")
             category = "Fit"
         elif prediction < 25:
+            st.warning(f"Predicted Body Fat: **{prediction:.2f}%**")
+            st.warning(f"Estimated Range: **{lower_bound:.2f}%** - **{upper_bound:.2f}%**")
             category = "Average"
         else:
+            st.error(f"Predicted Body Fat: **{prediction:.2f}%**")
+            st.error(f"Estimated Range: **{lower_bound:.2f}%** - **{upper_bound:.2f}%**")
             category = "Obese"
         st.info(f"Category: **{category}**")
 
