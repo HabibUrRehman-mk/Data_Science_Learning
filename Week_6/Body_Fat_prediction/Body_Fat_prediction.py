@@ -16,6 +16,8 @@ y=df['BodyFat']
 x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=42)
 model=RandomForestRegressor()
 model.fit(x_train, y_train)
+
+
 # Predictions
 y_pred = model.predict(x_test)
 
@@ -37,10 +39,9 @@ biceps = st.number_input("Biceps circumference (cm)", min_value=20.0, max_value=
 forearm = st.number_input("Forearm circumference (cm)", min_value=20.0, max_value=40.0, value=27.0, step=0.1)
 wrist = st.number_input("Wrist circumference (cm)", min_value=13.0, max_value=25.0, value=17.0, step=0.1)
 
-# Prepare features in same order as training after dropping ['Density','Age','Height','Ankle']
 features = np.array([[weight, neck, chest, abdomen, hip, thigh, knee, biceps, forearm, wrist]])
 
-# Prediction
+
 if st.button("Predict Body Fat"):
     prediction = model.predict(features)
     lower_bound = prediction[0] * 0.8 
